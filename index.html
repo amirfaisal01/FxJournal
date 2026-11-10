@@ -6,9 +6,8 @@
 <title>Forex Journal</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#faf8f5;--card:#fff;--ink:#141414;--mute:#7a736b;--line:#e8e2d9;--wood:#a8794a;--wood2:#d9bf9f;--wood-soft:#f3ece2;--pos:#2f6b3f;--neg:#a63d2f;
+:root{--bg:#ffffff;--card:#fff;--ink:#141414;--mute:#7a736b;--line:#e8e2d9;--wood:#a8794a;--wood2:#d9bf9f;--wood-soft:#f7f1e8;--pos:#2f6b3f;--neg:#a63d2f;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121110;--card:#1b1917;--ink:#f3eee7;--mute:#a09689;--line:#2e2a26;--wood:#c9976a;--wood2:#6b5238;--wood-soft:#262019;--pos:#7fc08f;--neg:#e08a7b}}
 *{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
 h1,h2,.serif{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600}
@@ -55,6 +54,41 @@ textarea{min-height:90px;resize:vertical}
 .track{flex:1;height:8px;background:var(--wood-soft);border-radius:9px}
 svg text{fill:var(--mute);font:10px Inter,sans-serif}
 .hide{display:none}
+
+body{background:#fff}
+.wrap{max-width:1180px;padding-top:34px}
+header{border-bottom:0;padding-bottom:4px}
+h1{font-size:42px;letter-spacing:.5px}
+.sub{color:var(--wood);letter-spacing:2.2px}
+nav{background:var(--wood-soft);padding:5px;border-radius:99px;width:max-content;max-width:100%;margin:22px 0 26px}
+nav button{transition:.2s;font-weight:500;padding:9px 22px}
+nav button:hover:not(.on){color:var(--ink)}
+nav button.on{box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.card{border-radius:20px;border:1px solid #f1ebe2;box-shadow:0 1px 2px rgba(70,45,20,.04),0 10px 30px rgba(70,45,20,.06);transition:transform .25s,box-shadow .25s}
+.g4 .card:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(70,45,20,.05),0 16px 38px rgba(70,45,20,.1)}
+.hero{background:linear-gradient(135deg,#151311 0%,#3a2b1e 100%);border:0;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(var(--wood),transparent 70%);opacity:.4}
+.big{font-size:36px}
+h2{font-size:24px;display:flex;align-items:center}
+h2::before{content:"";width:3px;height:18px;background:var(--wood);border-radius:2px;margin-right:10px}
+.btn{border-radius:99px;padding:10px 22px;transition:.2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.14)}
+.btn.wood{background:linear-gradient(135deg,#b98c5a,#94673b);border:0}
+.btn.ghost:hover{border-color:var(--wood);color:var(--wood)}
+.btn.sm{padding:5px 12px}
+th{background:#fcfaf6;padding:12px 10px}
+th:first-child{border-radius:10px 0 0 10px}th:last-child{border-radius:0 10px 10px 0}
+tbody tr{transition:background .15s}tbody tr:hover{background:#fcf9f4}
+td{border-bottom:1px solid #f3eee6}
+.tag{padding:3px 12px}
+.buy{background:#f3e8d9}
+.thumb{transition:transform .2s}.thumb:hover{transform:scale(1.08)}
+input,select,textarea{background:#fff;border-radius:10px;border-color:#e6dfd4;transition:.15s}
+dialog{border:0;border-radius:22px;box-shadow:0 30px 80px rgba(30,20,10,.28)}
+.track,.bars i{height:10px}
+.bars i{background:linear-gradient(90deg,var(--wood2),var(--wood))}
+.empty{padding:50px 10px}
+@media (max-width:600px){h1{font-size:34px}.big{font-size:30px}}
 </style>
 </head>
 <body>
@@ -118,7 +152,11 @@ svg text{fill:var(--mute);font:10px Inter,sans-serif}
 <dialog id="dAuth"><div class="dlg"><h2>Sign in</h2><p class="sub" id="aMsg" style="text-transform:none;letter-spacing:0">Your journal is private to your account.</p>
 <label style="margin-top:10px">Email</label><input id="aEm" type="email" autocomplete="email">
 <label style="margin-top:10px">Password (min 6)</label><input id="aPw" type="password" autocomplete="current-password">
+<div style="margin-top:10px"><a href="#" id="aFg" style="color:var(--wood);font-size:13px">Forgot password?</a></div>
 <div class="bar"><button class="btn ghost" id="aUp">Create account</button><button class="btn wood" id="aIn">Sign in</button></div></div></dialog>
+<dialog id="dNew"><div class="dlg"><h2>Set new password</h2>
+<label style="margin-top:10px">New password (min 6)</label><input id="nPw" type="password" autocomplete="new-password">
+<div class="bar"><button class="btn wood" id="nSave">Save password</button></div></div></dialog>
 <dialog id="dCfg"><div class="dlg"><h2>Connect Supabase</h2><p class="sub" style="text-transform:none;letter-spacing:0">Paste the Project URL and anon (public) key. Never use the service role key.</p>
 <label style="margin-top:10px">Project URL</label><input id="cUrl" placeholder="https://xxxx.supabase.co">
 <label style="margin-top:10px">Anon key</label><input id="cKey">
@@ -240,12 +278,17 @@ $('imp').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileRea
 
 async function begin(sess){uid=sess.user.id;try{await refresh()}catch(x){alert('Load failed: '+x.message)}if(S.start===null)$('dSet').showModal()}
 async function init(){const c=cfg();if(!c.url||!c.key){$('dCfg').showModal();return}
-  sb=supabase.createClient(c.url,c.key);const {data}=await sb.auth.getSession();
+  sb=supabase.createClient(c.url,c.key);sb.auth.onAuthStateChange(ev=>{if(ev==='PASSWORD_RECOVERY'){$('dAuth').close();$('dNew').showModal()}});const {data}=await sb.auth.getSession();
   if(data.session)begin(data.session);else $('dAuth').showModal()}
 async function auth(up){const email=$('aEm').value.trim(),password=$('aPw').value;
   const {data,error}=up?await sb.auth.signUp({email,password}):await sb.auth.signInWithPassword({email,password});
   if(error){$('aMsg').textContent=error.message;return}
   if(data.session){$('dAuth').close();begin(data.session)}else $('aMsg').textContent='Check your email to confirm your account, then sign in.'}
+$('aFg').onclick=async e=>{e.preventDefault();const email=$('aEm').value.trim();if(!email){$('aMsg').textContent='Enter your email above first.';return}
+  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+  $('aMsg').textContent=error?error.message:'Reset link sent. Check your email and open the link.'};
+$('nSave').onclick=async()=>{const password=$('nPw').value;if(password.length<6){alert('Minimum 6 characters.');return}
+  const {error}=await sb.auth.updateUser({password});if(error){alert(error.message);return}$('dNew').close();alert('Password updated.')};
 $('aIn').onclick=()=>auth(false);$('aUp').onclick=()=>auth(true);
 $('cSave').onclick=()=>{try{localStorage.setItem('sbUrl',$('cUrl').value.trim());localStorage.setItem('sbKey',$('cKey').value.trim())}catch(e){}$('dCfg').close();init()};
 $('outBtn').onclick=async()=>{if(sb)await sb.auth.signOut();S={start:null,trades:[]};render();$('dAuth').showModal()};
