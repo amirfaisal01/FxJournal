@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forex Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f5;--card:#fff;--ink:#141414;--mute:#7a736b;--line:#e8e2d9;--wood:#a8794a;--wood2:#d9bf9f;--wood-soft:#f3ece2;--pos:#2f6b3f;--neg:#a63d2f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121110;--card:#1b1917;--ink:#f3eee7;--mute:#a09689;--line:#2e2a26;--wood:#c9976a;--wood2:#6b5238;--wood-soft:#262019;--pos:#7fc08f;--neg:#e08a7b}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,.serif{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 18px 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--line)}
+h1{font-size:30px;margin:0;letter-spacing:.3px}h1 span{color:var(--wood)}
+.sub{color:var(--mute);font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
+nav{display:flex;gap:6px;margin:20px 0}
+nav button{background:none;border:0;padding:8px 16px;border-radius:99px;font:inherit;color:var(--mute);cursor:pointer}
+nav button.on{background:var(--ink);color:var(--bg)}
+.btn{background:var(--ink);color:var(--bg);border:1px solid var(--ink);padding:9px 18px;border-radius:8px;font:500 13px Inter,sans-serif;cursor:pointer}
+.btn.wood{background:var(--wood);border-color:var(--wood);color:#fff}
+.btn.ghost{background:none;color:var(--ink);border-color:var(--line)}
+.btn.sm{padding:5px 10px;font-size:12px}
+.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.lbl{font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--mute)}
+.big{font-family:"Cormorant Garamond",Georgia,serif;font-size:32px;font-weight:600;line-height:1.2;margin-top:4px}
+.hero{background:var(--ink);color:var(--bg);border-color:var(--ink)}.hero .lbl{color:var(--wood2)}
+.pos{color:var(--pos)}.neg{color:var(--neg)}.hero .pos{color:#9fd8ac}.hero .neg{color:#f0a495}
+h2{font-size:22px;margin:0 0 12px}
+section{margin-top:22px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:820px}
+th{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mute);text-align:left;font-weight:500;padding:10px 10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;letter-spacing:.6px}
+.buy{background:var(--wood-soft);color:var(--wood)}.sell{background:var(--ink);color:var(--bg)}
+.thumb{width:44px;height:34px;object-fit:cover;border-radius:6px;border:1px solid var(--line);cursor:pointer}
+.empty{text-align:center;color:var(--mute);padding:40px 10px}
+dialog{border:1px solid var(--line);border-radius:16px;padding:0;background:var(--card);color:var(--ink);width:min(640px,94vw);max-height:92vh}
+dialog::backdrop{background:rgba(20,16,12,.55)}
+.dlg{padding:22px}
+form .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:12px}
+label{display:block;font-size:11px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--wood2);border-color:var(--wood)}
+textarea{min-height:90px;resize:vertical}
+.bar{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.prev{max-width:100%;max-height:220px;border-radius:10px;margin-top:8px;border:1px solid var(--line)}
+.bars div{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13px}
+.bars i{display:block;height:8px;border-radius:9px;background:var(--wood)}
+.track{flex:1;height:8px;background:var(--wood-soft);border-radius:9px}
+svg text{fill:var(--mute);font:10px Inter,sans-serif}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div><h1>Forex <span>Journal</span></h1><div class="sub">Track · Review · Improve</div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn ghost" id="setBtn">Settings</button>
+    <button class="btn ghost" id="outBtn">Log out</button>
+    <button class="btn wood" id="addBtn">+ New Trade</button>
+  </div>
+</header>
+<nav><button class="on" data-tab="dash">Dashboard</button><button data-tab="trades">Trades</button></nav>
+
+<div id="dash">
+  <div class="grid g4">
+    <div class="card hero"><div class="lbl">Current Balance</div><div class="big" id="kBal">$0</div><div class="lbl" style="margin-top:6px">Start: <span id="kStart">$0</span></div></div>
+    <div class="card"><div class="lbl">Net Profit / Loss</div><div class="big" id="kNet">$0</div><div class="lbl" style="margin-top:6px" id="kRet">0%</div></div>
+    <div class="card"><div class="lbl">Win Rate</div><div class="big" id="kWR">0%</div><div class="lbl" style="margin-top:6px" id="kWL">0 W · 0 L</div></div>
+    <div class="card"><div class="lbl">Total Trades</div><div class="big" id="kTot">0</div><div class="lbl" style="margin-top:6px">Closed positions</div></div>
+  </div>
+  <section class="card"><h2>Equity Curve</h2><div id="eq"></div></section>
+  <div class="grid g4" style="margin-top:14px" id="kMore"></div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h2>By Pair</h2><div class="bars" id="byPair"></div></div>
+    <div class="card"><h2>Buy vs Sell</h2><div class="bars" id="byDir"></div></div>
+  </div>
+</div>
+
+<div id="trades" class="hide">
+  <div class="card scroll"><table>
+    <thead><tr><th>#</th><th>Date</th><th>Time</th><th>Pair</th><th>Side</th><th>TP</th><th>SL</th><th>Result</th><th>Profit</th><th>Chart</th><th></th></tr></thead>
+    <tbody id="tb"></tbody></table><div class="empty hide" id="none">No trades yet. Click “+ New Trade” to log your first one.</div></div>
+</div>
+</div>
+
+<dialog id="dForm"><div class="dlg">
+<h2 id="fTitle">New Trade</h2>
+<form id="f">
+ <div class="row">
+  <div><label>Date</label><input type="date" id="date" required></div>
+  <div><label>Hour</label><input type="number" id="hh" min="1" max="12" required></div>
+  <div><label>Minute</label><input type="number" id="mm" min="0" max="59" value="0" required></div>
+  <div><label>AM / PM</label><select id="ap"><option>AM</option><option>PM</option></select></div>
+ </div>
+ <div class="row">
+  <div><label>Pair</label><select id="pair"><option>BTC/USD</option><option>XAU/USD</option></select></div>
+  <div><label>Side</label><select id="dir"><option>Buy</option><option>Sell</option></select></div>
+  <div><label>Take Profit (TP)</label><input type="number" step="any" id="tp" required></div>
+  <div><label>Stop Loss (SL)</label><input type="number" step="any" id="sl" required></div>
+ </div>
+ <div class="row">
+  <div><label>Result</label><select id="res"><option value="TP">TP hit (+)</option><option value="SL">SL hit (−)</option></select></div>
+  <div><label>Amount ($)</label><input type="number" step="any" min="0" id="amt" placeholder="e.g. 150" required></div>
+ </div>
+ <div style="margin-bottom:12px"><label>Analysis Screenshot</label><input type="file" id="img" accept="image/*"><img class="prev hide" id="prev" alt="Preview"></div>
+ <div><label>Trade Review</label><textarea id="note" placeholder="Why did you enter? What went right or wrong?"></textarea></div>
+ <div class="bar"><button type="button" class="btn ghost" id="fCancel">Cancel</button><button class="btn wood">Save Trade</button></div>
+</form></div></dialog>
+
+<dialog id="dAuth"><div class="dlg"><h2>Sign in</h2><p class="sub" id="aMsg" style="text-transform:none;letter-spacing:0">Your journal is private to your account.</p>
+<label style="margin-top:10px">Email</label><input id="aEm" type="email" autocomplete="email">
+<label style="margin-top:10px">Password (min 6)</label><input id="aPw" type="password" autocomplete="current-password">
+<div class="bar"><button class="btn ghost" id="aUp">Create account</button><button class="btn wood" id="aIn">Sign in</button></div></div></dialog>
+<dialog id="dCfg"><div class="dlg"><h2>Connect Supabase</h2><p class="sub" style="text-transform:none;letter-spacing:0">Paste the Project URL and anon (public) key. Never use the service role key.</p>
+<label style="margin-top:10px">Project URL</label><input id="cUrl" placeholder="https://xxxx.supabase.co">
+<label style="margin-top:10px">Anon key</label><input id="cKey">
+<div class="bar"><button class="btn wood" id="cSave">Connect</button></div></div></dialog>
+<dialog id="dView"><div class="dlg" id="vBody"></div></dialog>
+
+<dialog id="dSet"><div class="dlg">
+<h2>Settings</h2>
+<label>Starting Balance ($)</label><input type="number" step="any" min="0" id="sb">
+<div class="bar" style="justify-content:flex-start;margin-top:14px">
+ <button class="btn" id="sbSave">Save Balance</button>
+ <button class="btn ghost" id="exp">Export Backup</button>
+ <button class="btn ghost" id="impB">Import Backup</button>
+ <input type="file" id="imp" accept=".json" class="hide">
+</div>
+<div class="bar"><button class="btn ghost" onclick="dSet.close()">Close</button></div>
+</div></dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const $=id=>document.getElementById(id),KEY='forexJournalV1';
+let S={start:null,trades:[]},editId=null,imgData=null,sb,uid;
+const SB_URL='',SB_KEY=''; // optional: hardcode your Project URL and anon key here
+const cfg=()=>{try{return{url:SB_URL||localStorage.getItem('sbUrl'),key:SB_KEY||localStorage.getItem('sbKey')}}catch(e){return{}}};
+const toRow=(t,p)=>({id:t.id,trade_date:t.date,hh:+t.hh,mm:+t.mm,ap:t.ap,pair:t.pair,dir:t.dir,tp:+t.tp,sl:+t.sl,res:t.res,amt:+t.amt,img_path:p||null,note:t.note||''});
+async function refresh(){
+ const [a,b]=await Promise.all([sb.from('settings').select('start_balance').maybeSingle(),sb.from('trades').select('*')]);
+ if(b.error)throw b.error;
+ S.start=a.data?+a.data.start_balance:null;
+ S.trades=b.data.map(r=>({id:r.id,date:r.trade_date,hh:r.hh,mm:r.mm,ap:r.ap,pair:r.pair,dir:r.dir,tp:r.tp,sl:r.sl,res:r.res,amt:+r.amt,path:r.img_path,img:'',note:r.note||''}));
+ const ps=S.trades.filter(t=>t.path).map(t=>t.path);
+ if(ps.length){const {data}=await sb.storage.from('screenshots').createSignedUrls(ps,3600);(data||[]).forEach(d=>{const t=S.trades.find(x=>x.path===d.path);if(t&&d.signedUrl)t.img=d.signedUrl})}
+ render();
+}
+async function upImg(id,url){const blob=await (await fetch(url)).blob(),p=uid+'/'+id+'.jpg';
+ const {error}=await sb.storage.from('screenshots').upload(p,blob,{upsert:true,contentType:'image/jpeg'});if(error)throw error;return p}
+const money=(n,s)=>(s&&n>0?'+':'')+(n<0?'−':'')+'$'+Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const cls=n=>n>0?'pos':n<0?'neg':'';
+const h24=t=>(t.hh%12)+(t.ap==='PM'?12:0);
+const key=t=>t.date+'T'+String(h24(t)).padStart(2,'0')+':'+String(t.mm).padStart(2,'0');
+const profit=t=>t.res==='TP'?Math.abs(t.amt):-Math.abs(t.amt);
+const sorted=()=>[...S.trades].sort((a,b)=>key(a)<key(b)?-1:1);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const timeStr=t=>t.hh+':'+String(t.mm).padStart(2,'0')+' '+t.ap;
+
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
+  $('dash').classList.toggle('hide',b.dataset.tab!=='dash');$('trades').classList.toggle('hide',b.dataset.tab!=='trades');
+});
+
+function render(){
+  const list=sorted(),st=S.start||0;let bal=st,peak=st,dd=0,w=0,l=0,gw=0,gl=0,best=0,worst=0;
+  const pts=[st];
+  list.forEach(t=>{const p=profit(t);bal+=p;pts.push(bal);peak=Math.max(peak,bal);dd=Math.max(dd,peak-bal);
+    if(p>0){w++;gw+=p;best=Math.max(best,p)}else{l++;gl+=-p;worst=Math.min(worst,p)}});
+  const net=bal-st,n=list.length;
+  $('kBal').textContent=money(bal);$('kStart').textContent=money(st);
+  $('kNet').textContent=money(net,1);$('kNet').className='big '+cls(net);
+  $('kRet').textContent=(st?(net/st*100).toFixed(2):'0.00')+'% return';
+  $('kWR').textContent=(n?(w/n*100).toFixed(1):'0.0')+'%';$('kWL').textContent=w+' W · '+l+' L';$('kTot').textContent=n;
+  const pf=gl?(gw/gl).toFixed(2):(gw?'∞':'0.00');
+  const more=[['Avg Win',w?money(gw/w):'$0.00'],['Avg Loss',l?money(-gl/l):'$0.00'],['Profit Factor',pf],['Max Drawdown',money(-dd)],['Best Trade',money(best,1)],['Worst Trade',money(worst)],['Avg R:R',(w&&l)?((gw/w)/(gl/l)).toFixed(2):'–'],['Expectancy',n?money(net/n,1):'$0.00']];
+  $('kMore').innerHTML=more.map(m=>`<div class="card"><div class="lbl">${m[0]}</div><div class="big" style="font-size:24px">${m[1]}</div></div>`).join('');
+  chart(pts);
+  const grp=(arr,fn)=>arr.map(k=>{const g=list.filter(t=>fn(t)===k),gn=g.reduce((a,t)=>a+profit(t),0),gw=g.filter(t=>profit(t)>0).length,wr=g.length?gw/g.length*100:0;
+    return `<div><span style="width:70px">${k}</span><span class="track"><i style="width:${wr}%"></i></span><span style="width:150px;text-align:right">${wr.toFixed(0)}% · ${g.length} · <b class="${cls(gn)}">${money(gn,1)}</b></span></div>`}).join('');
+  $('byPair').innerHTML=grp(['BTC/USD','XAU/USD'],t=>t.pair);$('byDir').innerHTML=grp(['Buy','Sell'],t=>t.dir);
+  $('none').classList.toggle('hide',n>0);
+  $('tb').innerHTML=list.map((t,i)=>({t,i})).reverse().map(({t,i})=>{const p=profit(t);
+    return `<tr><td>${i+1}</td><td>${t.date}</td><td>${timeStr(t)}</td><td><b>${t.pair}</b></td><td><span class="tag ${t.dir==='Buy'?'buy':'sell'}">${t.dir.toUpperCase()}</span></td><td>${t.tp}</td><td>${t.sl}</td><td>${t.res==='TP'?'TP hit':'SL hit'}</td><td class="${cls(p)}"><b>${money(p,1)}</b></td><td>${t.img?`<img class="thumb" src="${t.img}" onclick="view('${t.id}')" alt="Chart">`:'–'}</td><td><button class="btn ghost sm" onclick="view('${t.id}')">View</button> <button class="btn ghost sm" onclick="edit('${t.id}')">Edit</button> <button class="btn ghost sm" onclick="del('${t.id}')">Delete</button></td></tr>`}).join('');
+}
+function chart(p){
+  const W=800,H=220,L=50,R=10,T=10,B=22,mn=Math.min(...p),mx=Math.max(...p),pad=(mx-mn||1)*.15,lo=mn-pad,hi=mx+pad;
+  const x=i=>L+(p.length>1?i/(p.length-1):0)*(W-L-R),y=v=>T+(1-(v-lo)/(hi-lo))*(H-T-B);
+  if(p.length<2){$('eq').innerHTML='<div class="empty">Your equity curve will appear after your first trade.</div>';return}
+  const d=p.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)).join(' ');
+  let g='';for(let k=0;k<=3;k++){const v=lo+(hi-lo)*k/3;g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-6}" y="${y(v)+3}" text-anchor="end">${Math.round(v).toLocaleString()}</text>`}
+  $('eq').innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Equity curve">${g}<path d="${d} L${x(p.length-1)} ${H-B} L${x(0)} ${H-B}Z" fill="var(--wood)" opacity=".12"/><path d="${d}" fill="none" stroke="var(--wood)" stroke-width="2.2" stroke-linejoin="round"/><circle cx="${x(p.length-1)}" cy="${y(p[p.length-1])}" r="4" fill="var(--ink)"/><text x="${L}" y="${H-6}">Start</text><text x="${W-R}" y="${H-6}" text-anchor="end">Trade ${p.length-1}</text></svg>`;
+}
+
+$('addBtn').onclick=()=>{if(S.start===null){$('dSet').showModal();return}
+  editId=null;imgData=null;$('f').reset();$('prev').classList.add('hide');$('fTitle').textContent='New Trade';
+  $('date').value=new Date().toISOString().slice(0,10);$('dForm').showModal()};
+$('fCancel').onclick=()=>$('dForm').close();
+$('img').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{const im=new Image();im.onload=()=>{const m=1000,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');
+    c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+    imgData=c.toDataURL('image/jpeg',.72);$('prev').src=imgData;$('prev').classList.remove('hide')};im.src=r.result};r.readAsDataURL(f)};
+$('f').onsubmit=async e=>{e.preventDefault();
+  const old=editId?S.trades.find(t=>t.id===editId):null;
+  const t={id:editId||crypto.randomUUID(),date:$('date').value,hh:$('hh').value,mm:$('mm').value,ap:$('ap').value,pair:$('pair').value,dir:$('dir').value,tp:$('tp').value,sl:$('sl').value,res:$('res').value,amt:Math.abs(+$('amt').value),note:$('note').value.trim()};
+  try{let p=old&&old.path;if(imgData)p=await upImg(t.id,imgData);
+    const {error}=await sb.from('trades').upsert(toRow(t,p));if(error)throw error;
+    await refresh();$('dForm').close()}catch(x){alert('Save failed: '+x.message)}};
+window.edit=id=>{const t=S.trades.find(x=>x.id===id);editId=id;imgData=null;
+  ['date','hh','mm','ap','pair','dir','tp','sl','res','amt','note'].forEach(k=>$(k).value=t[k]);
+  $('prev').src=t.img||'';$('prev').classList.toggle('hide',!t.img);$('fTitle').textContent='Edit Trade';$('dForm').showModal()};
+window.del=async id=>{if(!confirm('Delete this trade?'))return;const t=S.trades.find(x=>x.id===id);
+  try{const {error}=await sb.from('trades').delete().eq('id',id);if(error)throw error;
+    if(t.path)await sb.storage.from('screenshots').remove([t.path]);await refresh()}catch(x){alert('Delete failed: '+x.message)}};
+window.view=id=>{const t=S.trades.find(x=>x.id===id),p=profit(t),no=sorted().findIndex(x=>x.id===id)+1;
+  $('vBody').innerHTML=`<div class="lbl">Trade #${no} · ${t.date} · ${timeStr(t)}</div><h2 style="margin-top:4px">${t.pair} <span class="tag ${t.dir==='Buy'?'buy':'sell'}">${t.dir.toUpperCase()}</span></h2>
+  <div class="grid g4" style="grid-template-columns:repeat(3,1fr)"><div><div class="lbl">TP</div><b>${t.tp}</b></div><div><div class="lbl">SL</div><b>${t.sl}</b></div><div><div class="lbl">Profit</div><b class="${cls(p)}">${money(p,1)}</b></div></div>
+  ${t.img?`<img class="prev" style="max-height:none;width:100%" src="${t.img}" alt="Analysis">`:''}
+  <h2 style="margin-top:16px;font-size:18px">Review</h2><p style="white-space:pre-wrap;margin:0">${esc(t.note)||'<span style="color:var(--mute)">No review written.</span>'}</p>
+  <div class="bar"><button class="btn ghost" onclick="dView.close()">Close</button></div>`;$('dView').showModal()};
+
+$('setBtn').onclick=()=>{$('sb').value=S.start??'';$('dSet').showModal()};
+$('sbSave').onclick=async()=>{const v=parseFloat($('sb').value);if(isNaN(v)||v<0){alert('Enter a valid starting balance.');return}
+  const {error}=await sb.from('settings').upsert({user_id:uid,start_balance:v});if(error){alert(error.message);return}S.start=v;render();$('dSet').close()};
+$('exp').onclick=()=>{const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(S));a.download='forex-journal-backup.json';a.click()};
+$('impB').onclick=()=>$('imp').click();
+$('imp').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{
+  const d=JSON.parse(r.result);if(!Array.isArray(d.trades))throw new Error('invalid file');
+  for(const t of d.trades){const id=crypto.randomUUID();let p=null;if(t.img&&t.img.startsWith('data:'))p=await upImg(id,t.img);
+    const {error}=await sb.from('trades').insert(toRow({...t,id},p));if(error)throw error}
+  if(S.start===null&&d.start!=null)await sb.from('settings').upsert({user_id:uid,start_balance:d.start});
+  await refresh();$('dSet').close()}catch(x){alert('Import failed: '+x.message)}};r.readAsText(f)};
+
+async function begin(sess){uid=sess.user.id;try{await refresh()}catch(x){alert('Load failed: '+x.message)}if(S.start===null)$('dSet').showModal()}
+async function init(){const c=cfg();if(!c.url||!c.key){$('dCfg').showModal();return}
+  sb=supabase.createClient(c.url,c.key);const {data}=await sb.auth.getSession();
+  if(data.session)begin(data.session);else $('dAuth').showModal()}
+async function auth(up){const email=$('aEm').value.trim(),password=$('aPw').value;
+  const {data,error}=up?await sb.auth.signUp({email,password}):await sb.auth.signInWithPassword({email,password});
+  if(error){$('aMsg').textContent=error.message;return}
+  if(data.session){$('dAuth').close();begin(data.session)}else $('aMsg').textContent='Check your email to confirm your account, then sign in.'}
+$('aIn').onclick=()=>auth(false);$('aUp').onclick=()=>auth(true);
+$('cSave').onclick=()=>{try{localStorage.setItem('sbUrl',$('cUrl').value.trim());localStorage.setItem('sbKey',$('cKey').value.trim())}catch(e){}$('dCfg').close();init()};
+$('outBtn').onclick=async()=>{if(sb)await sb.auth.signOut();S={start:null,trades:[]};render();$('dAuth').showModal()};
+['dAuth','dCfg'].forEach(i=>$(i).addEventListener('cancel',e=>e.preventDefault()));
+render();init();
+</script>
+</body>
+</html>
