@@ -1,299 +1,660 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Forex Journal</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#ffffff;--card:#fff;--ink:#141414;--mute:#7a736b;--line:#e8e2d9;--wood:#a8794a;--wood2:#d9bf9f;--wood-soft:#f7f1e8;--pos:#2f6b3f;--neg:#a63d2f;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-h1,h2,.serif{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600}
-.wrap{max-width:1100px;margin:0 auto;padding:24px 18px 60px}
-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--line)}
-h1{font-size:30px;margin:0;letter-spacing:.3px}h1 span{color:var(--wood)}
-.sub{color:var(--mute);font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
-nav{display:flex;gap:6px;margin:20px 0}
-nav button{background:none;border:0;padding:8px 16px;border-radius:99px;font:inherit;color:var(--mute);cursor:pointer}
-nav button.on{background:var(--ink);color:var(--bg)}
-.btn{background:var(--ink);color:var(--bg);border:1px solid var(--ink);padding:9px 18px;border-radius:8px;font:500 13px Inter,sans-serif;cursor:pointer}
-.btn.wood{background:var(--wood);border-color:var(--wood);color:#fff}
+:root{--bg:#fff;--ink:#141414;--mute:#7a736b;--line:#e8e2d9;--wood:#a8794a;--wood2:#d9bf9f;--soft:#f7f1e8;--pos:#2f6b3f;--neg:#a63d2f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,sans-serif}
+.wrap{max-width:1180px;margin:auto;padding:30px 18px 60px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h1,h2,.big{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600}
+h1{font-size:42px;margin:0}h1 span{color:var(--wood)}
+h2{font-size:24px;margin:0 0 12px;display:flex;align-items:center}
+h2:before{content:"";width:3px;height:18px;background:var(--wood);margin-right:10px}
+.sub{color:var(--wood);font-size:12px;letter-spacing:2px;text-transform:uppercase}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{background:var(--ink);color:white;border:1px solid var(--ink);padding:10px 20px;border-radius:99px;font:500 13px Inter;cursor:pointer}
+.btn.wood{background:linear-gradient(135deg,#b98c5a,#94673b);border:0}
 .btn.ghost{background:none;color:var(--ink);border-color:var(--line)}
-.btn.sm{padding:5px 10px;font-size:12px}
-.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.btn.sm{padding:5px 12px;font-size:12px}
+nav{display:flex;gap:6px;background:var(--soft);padding:5px;border-radius:99px;width:max-content;margin:22px 0 26px}
+nav button{background:none;border:0;padding:9px 22px;border-radius:99px;color:var(--mute);cursor:pointer}
+nav button.on{background:var(--ink);color:white}
+.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:white;border:1px solid #f1ebe2;border-radius:18px;padding:18px;box-shadow:0 8px 25px #462d140c}
+.hero{background:linear-gradient(135deg,#151311,#3a2b1e);color:white;border:0}
 .lbl{font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--mute)}
-.big{font-family:"Cormorant Garamond",Georgia,serif;font-size:32px;font-weight:600;line-height:1.2;margin-top:4px}
-.hero{background:var(--ink);color:var(--bg);border-color:var(--ink)}.hero .lbl{color:var(--wood2)}
-.pos{color:var(--pos)}.neg{color:var(--neg)}.hero .pos{color:#9fd8ac}.hero .neg{color:#f0a495}
-h2{font-size:22px;margin:0 0 12px}
-section{margin-top:22px}
+.hero .lbl{color:var(--wood2)}
+.big{font-size:36px;line-height:1.2;margin-top:4px}
+.pos{color:var(--pos)}.neg{color:var(--neg)}
+.hero .pos{color:#9fd8ac}.hero .neg{color:#f0a495}
 .scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:820px}
-th{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mute);text-align:left;font-weight:500;padding:10px 10px;border-bottom:1px solid var(--line)}
-td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
-tr:last-child td{border-bottom:0}
-.tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;letter-spacing:.6px}
-.buy{background:var(--wood-soft);color:var(--wood)}.sell{background:var(--ink);color:var(--bg)}
-.thumb{width:44px;height:34px;object-fit:cover;border-radius:6px;border:1px solid var(--line);cursor:pointer}
-.empty{text-align:center;color:var(--mute);padding:40px 10px}
-dialog{border:1px solid var(--line);border-radius:16px;padding:0;background:var(--card);color:var(--ink);width:min(640px,94vw);max-height:92vh}
-dialog::backdrop{background:rgba(20,16,12,.55)}
-.dlg{padding:22px}
+table{width:100%;border-collapse:collapse;min-width:1050px}
+th{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);text-align:left;font-weight:500;padding:12px 10px;background:#fcfaf6}
+td{padding:10px;border-bottom:1px solid #f3eee6;white-space:nowrap}
+.tag{display:inline-block;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600}
+.buy{background:#f3e8d9;color:var(--wood)}.sell{background:var(--ink);color:white}
+.running{background:#fff3d9;color:#98691f}.closed{background:#e7f3e8;color:#2f6b3f}
+.thumb{width:44px;height:34px;object-fit:cover;border-radius:6px;cursor:pointer}
+.empty{text-align:center;color:var(--mute);padding:40px}
+.hide{display:none}
+dialog{border:0;border-radius:20px;box-shadow:0 30px 80px #1e140a47;padding:0;background:white;color:var(--ink);width:min(650px,94vw);max-height:92vh}
+dialog::backdrop{background:#14100c8c}
+.dlg{padding:22px;overflow:auto;max-height:92vh}
 form .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:12px}
-label{display:block;font-size:11px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
-input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--wood2);border-color:var(--wood)}
+label{display:block;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid #e6dfd4;border-radius:10px;background:white;color:var(--ink);font:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--wood2)}
 textarea{min-height:90px;resize:vertical}
 .bar{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
-.prev{max-width:100%;max-height:220px;border-radius:10px;margin-top:8px;border:1px solid var(--line)}
-.bars div{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13px}
-.bars i{display:block;height:8px;border-radius:9px;background:var(--wood)}
-.track{flex:1;height:8px;background:var(--wood-soft);border-radius:9px}
-svg text{fill:var(--mute);font:10px Inter,sans-serif}
-.hide{display:none}
-
-body{background:#fff}
-.wrap{max-width:1180px;padding-top:34px}
-header{border-bottom:0;padding-bottom:4px}
-h1{font-size:42px;letter-spacing:.5px}
-.sub{color:var(--wood);letter-spacing:2.2px}
-nav{background:var(--wood-soft);padding:5px;border-radius:99px;width:max-content;max-width:100%;margin:22px 0 26px}
-nav button{transition:.2s;font-weight:500;padding:9px 22px}
-nav button:hover:not(.on){color:var(--ink)}
-nav button.on{box-shadow:0 3px 10px rgba(0,0,0,.2)}
-.card{border-radius:20px;border:1px solid #f1ebe2;box-shadow:0 1px 2px rgba(70,45,20,.04),0 10px 30px rgba(70,45,20,.06);transition:transform .25s,box-shadow .25s}
-.g4 .card:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(70,45,20,.05),0 16px 38px rgba(70,45,20,.1)}
-.hero{background:linear-gradient(135deg,#151311 0%,#3a2b1e 100%);border:0;position:relative;overflow:hidden}
-.hero:after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(var(--wood),transparent 70%);opacity:.4}
-.big{font-size:36px}
-h2{font-size:24px;display:flex;align-items:center}
-h2::before{content:"";width:3px;height:18px;background:var(--wood);border-radius:2px;margin-right:10px}
-.btn{border-radius:99px;padding:10px 22px;transition:.2s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.14)}
-.btn.wood{background:linear-gradient(135deg,#b98c5a,#94673b);border:0}
-.btn.ghost:hover{border-color:var(--wood);color:var(--wood)}
-.btn.sm{padding:5px 12px}
-th{background:#fcfaf6;padding:12px 10px}
-th:first-child{border-radius:10px 0 0 10px}th:last-child{border-radius:0 10px 10px 0}
-tbody tr{transition:background .15s}tbody tr:hover{background:#fcf9f4}
-td{border-bottom:1px solid #f3eee6}
-.tag{padding:3px 12px}
-.buy{background:#f3e8d9}
-.thumb{transition:transform .2s}.thumb:hover{transform:scale(1.08)}
-input,select,textarea{background:#fff;border-radius:10px;border-color:#e6dfd4;transition:.15s}
-dialog{border:0;border-radius:22px;box-shadow:0 30px 80px rgba(30,20,10,.28)}
-.track,.bars i{height:10px}
-.bars i{background:linear-gradient(90deg,var(--wood2),var(--wood))}
-.empty{padding:50px 10px}
-@media (max-width:600px){h1{font-size:34px}.big{font-size:30px}}
+.hint{font-size:11px;color:var(--mute);margin-top:5px}
+.pastebox{border:1.5px dashed var(--wood2);border-radius:12px;padding:16px;text-align:center;background:#fcfaf6;color:var(--mute);cursor:pointer}
+.pastebox strong{display:block;color:var(--ink)}
+.pastebox.dragover{background:var(--soft);outline:2px solid var(--wood2)}
+.paste-actions{display:flex;justify-content:center;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.paste-status{font-size:11px;color:var(--pos);margin-top:6px}
+.preview-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:12px}
+.preview-item{position:relative;border:1px solid var(--line);border-radius:10px;padding:5px}
+.preview-item img{width:100%;height:105px;object-fit:cover;border-radius:7px}
+.preview-item small{display:block;font-size:10px;color:var(--mute)}
+.preview-item button{position:absolute;top:8px;right:8px;border:0;border-radius:50%;background:#141414d9;color:white;width:24px;height:24px;cursor:pointer}
+.view-gallery{max-height:55vh;overflow-y:auto;display:grid;gap:12px;margin-top:12px}
+.view-gallery img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;display:block}
+.metric{display:flex;justify-content:space-between;gap:12px;margin:9px 0;font-size:13px}
+.metric span:first-child{color:var(--mute)}
+.analytics{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.donut-wrap{display:flex;align-items:center;gap:18px;min-height:140px}
+.donut{width:120px;height:120px;flex:0 0 120px;border-radius:50%;position:relative}
+.donut:after{content:"";position:absolute;inset:17px;background:white;border-radius:50%}
+.donut-center{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut-center strong{font-size:22px}
+.legend{font-size:12px;color:var(--mute);display:grid;gap:7px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--wood)}
+.dot.alt{background:#e8e2d9}
+.goal-track{height:9px;background:var(--soft);border-radius:99px;overflow:hidden;margin-top:10px}
+.goal-track i{display:block;height:100%;background:var(--wood);border-radius:99px}
+@media(max-width:600px){h1{font-size:34px}.big{font-size:30px}.wrap{padding-top:22px}}
 </style>
 </head>
 <body>
 <div class="wrap">
+
 <header>
-  <div><h1>Forex <span>Journal</span></h1><div class="sub">Track · Review · Improve</div></div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn ghost" id="setBtn">Settings</button>
-    <button class="btn ghost" id="outBtn">Log out</button>
-    <button class="btn wood" id="addBtn">+ New Trade</button>
-  </div>
+ <div><h1><span>Journal</span></h1><div class="sub">Track · Review · Improve</div></div>
+ <div class="actions">
+  <button class="btn ghost" id="setBtn">Settings</button>
+  <button class="btn ghost" id="outBtn">Log out</button>
+  <button class="btn wood" id="addBtn">+ New Trade</button>
+ </div>
 </header>
-<nav><button class="on" data-tab="dash">Dashboard</button><button data-tab="trades">Trades</button></nav>
+
+<nav>
+ <button class="on" data-tab="dash">Dashboard</button>
+ <button data-tab="trades">Trades</button>
+</nav>
 
 <div id="dash">
-  <div class="grid g4">
-    <div class="card hero"><div class="lbl">Current Balance</div><div class="big" id="kBal">$0</div><div class="lbl" style="margin-top:6px">Start: <span id="kStart">$0</span></div></div>
-    <div class="card"><div class="lbl">Net Profit / Loss</div><div class="big" id="kNet">$0</div><div class="lbl" style="margin-top:6px" id="kRet">0%</div></div>
-    <div class="card"><div class="lbl">Win Rate</div><div class="big" id="kWR">0%</div><div class="lbl" style="margin-top:6px" id="kWL">0 W · 0 L</div></div>
-    <div class="card"><div class="lbl">Total Trades</div><div class="big" id="kTot">0</div><div class="lbl" style="margin-top:6px">Closed positions</div></div>
+ <div class="grid g4">
+  <div class="card hero"><div class="lbl">Current Balance</div><div class="big" id="kBal">$0.00</div><div class="lbl">Start: <span id="kStart">$0.00</span></div></div>
+  <div class="card"><div class="lbl">Net Profit / Loss</div><div class="big" id="kNet">$0.00</div><div class="lbl" id="kRet">0.00% return</div></div>
+  <div class="card"><div class="lbl">Win Rate</div><div class="big" id="kWR">0.0%</div><div class="lbl" id="kWL">0 W · 0 L</div></div>
+  <div class="card"><div class="lbl">Total Trades</div><div class="big" id="kTot">0</div><div class="lbl" id="kClosed">0 Closed · 0 Running</div></div>
+ </div>
+
+ <section class="card">
+  <h2>Target Goal</h2>
+  <div class="grid g2" style="align-items:center">
+   <div><div class="lbl">Remaining to reach target</div><div class="big" id="goalRemain">—</div><div class="hint" id="goalCaption">Set your target goal in Settings.</div></div>
+   <div><div class="metric"><span>Target Goal</span><b id="goalTotal">—</b></div><div class="metric"><span>Net Profit</span><b id="goalProfit">$0.00</b></div><div class="goal-track"><i id="goalBar" style="width:0%"></i></div><div class="hint" id="goalPct">0% achieved</div></div>
   </div>
-  <section class="card"><h2>Equity Curve</h2><div id="eq"></div></section>
-  <div class="grid g4" style="margin-top:14px" id="kMore"></div>
-  <div class="grid g2" style="margin-top:14px">
-    <div class="card"><h2>By Pair</h2><div class="bars" id="byPair"></div></div>
-    <div class="card"><h2>Buy vs Sell</h2><div class="bars" id="byDir"></div></div>
+ </section>
+
+ <section>
+  <h2>Trade Analytics (Closed Only)</h2>
+  <div class="analytics">
+   <div class="card"><div class="lbl">Win vs Loss</div><div class="donut-wrap"><div class="donut" id="winDonut"><div class="donut-center"><strong id="winPct">0%</strong><span class="lbl">Win rate</span></div></div><div class="legend" id="winLegend"></div></div></div>
+   <div class="card"><div class="lbl">Performance by Pair</div><div id="pairAnalytics" style="margin-top:15px"></div></div>
+   <div class="card"><div class="lbl">Buy vs Sell</div><div class="donut-wrap"><div class="donut" id="dirDonut"><div class="donut-center"><strong id="dirPct">0%</strong><span class="lbl">Buy trades</span></div></div><div class="legend" id="dirLegend"></div></div></div>
   </div>
+ </section>
+ <div class="grid g4" style="margin-top:14px" id="kMore"></div>
 </div>
 
 <div id="trades" class="hide">
-  <div class="card scroll"><table>
-    <thead><tr><th>#</th><th>Date</th><th>Time</th><th>Pair</th><th>Side</th><th>TP</th><th>SL</th><th>Result</th><th>Profit</th><th>Chart</th><th></th></tr></thead>
-    <tbody id="tb"></tbody></table><div class="empty hide" id="none">No trades yet. Click “+ New Trade” to log your first one.</div></div>
+ <div class="card scroll">
+  <table>
+   <thead><tr><th>#</th><th>Date</th><th>Time</th><th>Pair</th><th>Side</th><th>Status</th><th>TP ($)</th><th>SL ($)</th><th>Exit</th><th>Order Size</th><th>Actual P/L</th><th>Chart</th><th></th></tr></thead>
+   <tbody id="tb"></tbody>
+  </table>
+  <div class="empty hide" id="none">No trades yet. Click “+ New Trade” to log your first one.</div>
+ </div>
 </div>
 </div>
 
-<dialog id="dForm"><div class="dlg">
-<h2 id="fTitle">New Trade</h2>
-<form id="f">
- <div class="row">
-  <div><label>Date</label><input type="date" id="date" required></div>
-  <div><label>Hour</label><input type="number" id="hh" min="1" max="12" required></div>
-  <div><label>Minute</label><input type="number" id="mm" min="0" max="59" value="0" required></div>
-  <div><label>AM / PM</label><select id="ap"><option>AM</option><option>PM</option></select></div>
- </div>
- <div class="row">
-  <div><label>Pair</label><select id="pair"><option>BTC/USD</option><option>XAU/USD</option></select></div>
-  <div><label>Side</label><select id="dir"><option>Buy</option><option>Sell</option></select></div>
-  <div><label>Take Profit (TP)</label><input type="number" step="any" id="tp" required></div>
-  <div><label>Stop Loss (SL)</label><input type="number" step="any" id="sl" required></div>
- </div>
- <div class="row">
-  <div><label>Result</label><select id="res"><option value="TP">TP hit (+)</option><option value="SL">SL hit (−)</option></select></div>
-  <div><label>Amount ($)</label><input type="number" step="any" min="0" id="amt" placeholder="e.g. 150" required></div>
- </div>
- <div style="margin-bottom:12px"><label>Analysis Screenshot</label><input type="file" id="img" accept="image/*"><img class="prev hide" id="prev" alt="Preview"></div>
- <div><label>Trade Review</label><textarea id="note" placeholder="Why did you enter? What went right or wrong?"></textarea></div>
- <div class="bar"><button type="button" class="btn ghost" id="fCancel">Cancel</button><button class="btn wood">Save Trade</button></div>
-</form></div></dialog>
+<dialog id="dForm">
+<div class="dlg">
+ <h2 id="fTitle">New Trade</h2>
+ <form id="f">
+  <div class="row"><div><label>Date</label><input type="date" id="date" required></div></div>
+  <div class="hint" style="margin:-5px 0 12px">Trade time is recorded automatically when you save.</div>
+  <div class="row">
+   <div><label>Pair</label><select id="pair"><option>XAU/USD</option><option>BTC/USD</option></select></div>
+   <div><label>Side</label><select id="dir"><option>Buy</option><option>Sell</option></select></div>
+   <div><label>Status</label><select id="status"><option value="In Position">In Position</option><option value="Closed">Closed</option></select></div>
+  </div>
+  <div class="row">
+   <div><label>Exit Type</label><select id="exitType"><option value="TP">TP Hit (+)</option><option value="SL">SL Hit (−)</option></select></div>
+   <div><label>TP Profit ($)</label><input type="number" step="any" id="tp" placeholder="e.g. 10" required><div class="hint">Enter positive amount.</div></div>
+   <div><label>SL Loss ($)</label><input type="number" step="any" id="sl" placeholder="e.g. 5" required><div class="hint">Enter loss amount.</div></div>
+   <div><label>Order Size</label><input type="number" step="any" min="0" id="orderSize" placeholder="e.g. 0.02" required></div>
+  </div>
 
-<dialog id="dAuth"><div class="dlg"><h2>Sign in</h2><p class="sub" id="aMsg" style="text-transform:none;letter-spacing:0">Your journal is private to your account.</p>
-<label style="margin-top:10px">Email</label><input id="aEm" type="email" autocomplete="email">
-<label style="margin-top:10px">Password (min 6)</label><input id="aPw" type="password" autocomplete="current-password">
-<div style="margin-top:10px"><a href="#" id="aFg" style="color:var(--wood);font-size:13px">Forgot password?</a></div>
-<div class="bar"><button class="btn ghost" id="aUp">Create account</button><button class="btn wood" id="aIn">Sign in</button></div></div></dialog>
-<dialog id="dNew"><div class="dlg"><h2>Set new password</h2>
-<label style="margin-top:10px">New password (min 6)</label><input id="nPw" type="password" autocomplete="new-password">
-<div class="bar"><button class="btn wood" id="nSave">Save password</button></div></div></dialog>
-<dialog id="dCfg"><div class="dlg"><h2>Connect Supabase</h2><p class="sub" style="text-transform:none;letter-spacing:0">Paste the Project URL and anon (public) key. Never use the service role key.</p>
-<label style="margin-top:10px">Project URL</label><input id="cUrl" placeholder="https://xxxx.supabase.co">
-<label style="margin-top:10px">Anon key</label><input id="cKey">
-<div class="bar"><button class="btn wood" id="cSave">Connect</button></div></div></dialog>
+  <div style="margin-bottom:12px">
+   <label>Analysis Screenshots</label>
+   <div class="pastebox" id="pasteBox" tabindex="0">
+    <strong>Click here, then press Ctrl + V</strong>
+    <span>Paste multiple screenshots or drag and drop images</span>
+    <div class="paste-actions">
+     <label class="btn ghost sm" for="img" style="margin:0;cursor:pointer">Choose images</label>
+     <span class="hint">PNG, JPG, WEBP</span>
+    </div>
+   </div>
+   <input type="file" id="img" accept="image/*" multiple hidden>
+   <div class="paste-status" id="pasteStatus"></div>
+   <div class="preview-gallery" id="previewGallery"></div>
+  </div>
+
+  <div><label>Trade Review</label><textarea id="note" placeholder="Why did you enter? What went right or wrong?"></textarea></div>
+  <div class="bar"><button type="button" class="btn ghost" id="fCancel">Cancel</button><button class="btn wood" id="saveTrade">Save Trade</button></div>
+ </form>
+</div>
+</dialog>
+
+<dialog id="dAuth"><div class="dlg">
+ <h2>Sign in</h2><p class="sub" id="aMsg" style="text-transform:none;letter-spacing:0">Your journal is private to your account.</p>
+ <label style="margin-top:10px">Email</label><input id="aEm" type="email" autocomplete="email">
+ <label style="margin-top:10px">Password</label><input id="aPw" type="password" autocomplete="current-password">
+ <div style="margin-top:10px"><a href="#" id="aFg" style="color:var(--wood)">Forgot password?</a></div>
+ <div class="bar"><button class="btn ghost" id="aUp">Create account</button><button class="btn wood" id="aIn">Sign in</button></div>
+</div></dialog>
+
+<dialog id="dNew"><div class="dlg"><h2>Set new password</h2><label>New password</label><input id="nPw" type="password"><div class="bar"><button class="btn wood" id="nSave">Save password</button></div></div></dialog>
+
+<dialog id="dCfg"><div class="dlg">
+ <h2>Connect Supabase</h2><p class="sub" style="text-transform:none;letter-spacing:0">Use Project URL and anon public key. Never use service role key.</p>
+ <label>Project URL</label><input id="cUrl" placeholder="https://xxxx.supabase.co">
+ <label>Anon key</label><input id="cKey">
+ <div class="bar"><button class="btn wood" id="cSave">Connect</button></div>
+</div></dialog>
+
 <dialog id="dView"><div class="dlg" id="vBody"></div></dialog>
 
 <dialog id="dSet"><div class="dlg">
-<h2>Settings</h2>
-<label>Starting Balance ($)</label><input type="number" step="any" min="0" id="sb">
-<div class="bar" style="justify-content:flex-start;margin-top:14px">
- <button class="btn" id="sbSave">Save Balance</button>
- <button class="btn ghost" id="exp">Export Backup</button>
- <button class="btn ghost" id="impB">Import Backup</button>
- <input type="file" id="imp" accept=".json" class="hide">
-</div>
-<div class="bar"><button class="btn ghost" onclick="dSet.close()">Close</button></div>
+ <h2>Settings</h2>
+ <label>Starting Balance ($)</label><input type="number" step="any" min="0" id="sb">
+ <label style="margin-top:12px">Target Goal ($)</label><input type="number" step="any" min="0" id="tg">
+ <div class="hint">Remaining target decreases with profit and increases with loss.</div>
+ <div class="bar" style="justify-content:flex-start">
+  <button class="btn" id="sbSave">Save Settings</button><button class="btn ghost" id="exp">Export Backup</button><button class="btn ghost" id="impB">Import Backup</button>
+  <input type="file" id="imp" accept=".json" hidden>
+ </div>
+ <div class="bar"><button class="btn ghost" id="setClose">Close</button></div>
 </div></dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-const $=id=>document.getElementById(id),KEY='forexJournalV1';
-let S={start:null,trades:[]},editId=null,imgData=null,sb,uid;
-const SB_URL='',SB_KEY=''; // optional: hardcode your Project URL and anon key here
+const $=id=>document.getElementById(id);
+let S={start:null,goal:null,trades:[]},editId=null,imgData=[],existingImages=[],sb,uid;
+const SB_URL='',SB_KEY='';
 const cfg=()=>{try{return{url:SB_URL||localStorage.getItem('sbUrl'),key:SB_KEY||localStorage.getItem('sbKey')}}catch(e){return{}}};
-const toRow=(t,p)=>({id:t.id,trade_date:t.date,hh:+t.hh,mm:+t.mm,ap:t.ap,pair:t.pair,dir:t.dir,tp:+t.tp,sl:+t.sl,res:t.res,amt:+t.amt,img_path:p||null,note:t.note||''});
-async function refresh(){
- const [a,b]=await Promise.all([sb.from('settings').select('start_balance').maybeSingle(),sb.from('trades').select('*')]);
- if(b.error)throw b.error;
- S.start=a.data?+a.data.start_balance:null;
- S.trades=b.data.map(r=>({id:r.id,date:r.trade_date,hh:r.hh,mm:r.mm,ap:r.ap,pair:r.pair,dir:r.dir,tp:r.tp,sl:r.sl,res:r.res,amt:+r.amt,path:r.img_path,img:'',note:r.note||''}));
- const ps=S.trades.filter(t=>t.path).map(t=>t.path);
- if(ps.length){const {data}=await sb.storage.from('screenshots').createSignedUrls(ps,3600);(data||[]).forEach(d=>{const t=S.trades.find(x=>x.path===d.path);if(t&&d.signedUrl)t.img=d.signedUrl})}
- render();
-}
-async function upImg(id,url){const blob=await (await fetch(url)).blob(),p=uid+'/'+id+'.jpg';
- const {error}=await sb.storage.from('screenshots').upload(p,blob,{upsert:true,contentType:'image/jpeg'});if(error)throw error;return p}
-const money=(n,s)=>(s&&n>0?'+':'')+(n<0?'−':'')+'$'+Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const money=(n,plus=false)=>(plus&&n>0?'+':'')+(n<0?'−':'')+'$'+Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 const cls=n=>n>0?'pos':n<0?'neg':'';
 const h24=t=>(t.hh%12)+(t.ap==='PM'?12:0);
 const key=t=>t.date+'T'+String(h24(t)).padStart(2,'0')+':'+String(t.mm).padStart(2,'0');
-const profit=t=>t.res==='TP'?Math.abs(t.amt):-Math.abs(t.amt);
-const sorted=()=>[...S.trades].sort((a,b)=>key(a)<key(b)?-1:1);
-const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const profit=t=>t.status==='Closed'?Number(t.profitLoss??(t.exitType==='TP'?Math.abs(t.tp):-Math.abs(t.sl))):0;
+const sorted=()=>[...S.trades].sort((a,b)=>key(a).localeCompare(key(b)));
+const esc=s=>String(s||'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const timeStr=t=>t.hh+':'+String(t.mm).padStart(2,'0')+' '+t.ap;
+const closedTrades=()=>S.trades.filter(t=>t.status==='Closed');
 
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
-  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
-  $('dash').classList.toggle('hide',b.dataset.tab!=='dash');$('trades').classList.toggle('hide',b.dataset.tab!=='trades');
-});
+function localNow(){
+ const d=new Date();
+ return{date:[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'),hh:String(d.getHours()%12||12),mm:String(d.getMinutes()),ap:d.getHours()>=12?'PM':'AM'};
+}
+function parsePaths(v){
+ if(!v)return[];
+ if(Array.isArray(v))return v.filter(Boolean);
+ try{const x=JSON.parse(v);if(Array.isArray(x))return x.filter(Boolean);if(typeof x==='string'&&x)return[x]}catch(e){}
+ return[String(v)];
+}
+function getPaths(t){return t.paths||parsePaths(t.path)}
+
+function toRow(t,paths){
+ return{
+  id:t.id,trade_date:t.date,hh:+t.hh,mm:+t.mm,ap:t.ap,
+  pair:t.pair,dir:t.dir,status:t.status,
+  tp:+t.tp,sl:-Math.abs(+t.sl),exit_type:t.exitType,
+  order_size:+t.orderSize,
+  profit_loss:t.status==='Closed'?(t.exitType==='TP'?Math.abs(+t.tp):-Math.abs(+t.sl)):0,
+  img_path:paths.length?JSON.stringify(paths):null,note:t.note||''
+ };
+}
+
+async function refresh(){
+ const [a,b]=await Promise.all([
+  sb.from('settings').select('start_balance,target_goal').maybeSingle(),
+  sb.from('trades').select('*')
+ ]);
+ if(a.error)throw a.error;if(b.error)throw b.error;
+ S.start=a.data?Number(a.data.start_balance):null;
+ S.goal=a.data?.target_goal==null?null:Number(a.data.target_goal);
+
+ S.trades=(b.data||[]).map(r=>{
+  const paths=parsePaths(r.img_path);
+  const status=r.status||'Closed';
+  return{
+   id:r.id,date:r.trade_date,hh:r.hh,mm:r.mm,ap:r.ap,
+   pair:r.pair,dir:r.dir,status,
+   tp:Number(r.tp||0),sl:Number(r.sl||0),
+   exitType:r.exit_type||r.res||'TP',
+   orderSize:Number(r.order_size||0),
+   profitLoss:Number(r.profit_loss??(r.res==='TP'?Math.abs(Number(r.amt||0)):-Math.abs(Number(r.amt||0)))),
+   paths,path:paths[0]||null,imgs:[],img:'',note:r.note||''
+  };
+ });
+
+ const paths=[...new Set(S.trades.flatMap(t=>t.paths))];
+ if(paths.length){
+  const{data,error}=await sb.storage.from('screenshots').createSignedUrls(paths,3600);
+  if(!error){
+   const map={};(data||[]).forEach(x=>{if(x.signedUrl)map[x.path]=x.signedUrl});
+   S.trades.forEach(t=>{t.imgs=t.paths.map(p=>map[p]).filter(Boolean);t.img=t.imgs[0]||''});
+  }
+ }
+ render();
+}
+
+async function upImg(id,url,index){
+ const blob=await(await fetch(url)).blob();
+ const path=uid+'/'+id+'-'+index+'.jpg';
+ const{error}=await sb.storage.from('screenshots').upload(path,blob,{upsert:true,contentType:'image/jpeg'});
+ if(error)throw error;
+ return path;
+}
+
+function donut(id,pct){
+ const p=Math.max(0,Math.min(100,pct));
+ $(id).style.background=`conic-gradient(var(--wood) 0 ${p}%,#e8e2d9 ${p}% 100%)`;
+}
 
 function render(){
-  const list=sorted(),st=S.start||0;let bal=st,peak=st,dd=0,w=0,l=0,gw=0,gl=0,best=0,worst=0;
-  const pts=[st];
-  list.forEach(t=>{const p=profit(t);bal+=p;pts.push(bal);peak=Math.max(peak,bal);dd=Math.max(dd,peak-bal);
-    if(p>0){w++;gw+=p;best=Math.max(best,p)}else{l++;gl+=-p;worst=Math.min(worst,p)}});
-  const net=bal-st,n=list.length;
-  $('kBal').textContent=money(bal);$('kStart').textContent=money(st);
-  $('kNet').textContent=money(net,1);$('kNet').className='big '+cls(net);
-  $('kRet').textContent=(st?(net/st*100).toFixed(2):'0.00')+'% return';
-  $('kWR').textContent=(n?(w/n*100).toFixed(1):'0.0')+'%';$('kWL').textContent=w+' W · '+l+' L';$('kTot').textContent=n;
-  const pf=gl?(gw/gl).toFixed(2):(gw?'∞':'0.00');
-  const more=[['Avg Win',w?money(gw/w):'$0.00'],['Avg Loss',l?money(-gl/l):'$0.00'],['Profit Factor',pf],['Max Drawdown',money(-dd)],['Best Trade',money(best,1)],['Worst Trade',money(worst)],['Avg R:R',(w&&l)?((gw/w)/(gl/l)).toFixed(2):'–'],['Expectancy',n?money(net/n,1):'$0.00']];
-  $('kMore').innerHTML=more.map(m=>`<div class="card"><div class="lbl">${m[0]}</div><div class="big" style="font-size:24px">${m[1]}</div></div>`).join('');
-  chart(pts);
-  const grp=(arr,fn)=>arr.map(k=>{const g=list.filter(t=>fn(t)===k),gn=g.reduce((a,t)=>a+profit(t),0),gw=g.filter(t=>profit(t)>0).length,wr=g.length?gw/g.length*100:0;
-    return `<div><span style="width:70px">${k}</span><span class="track"><i style="width:${wr}%"></i></span><span style="width:150px;text-align:right">${wr.toFixed(0)}% · ${g.length} · <b class="${cls(gn)}">${money(gn,1)}</b></span></div>`}).join('');
-  $('byPair').innerHTML=grp(['BTC/USD','XAU/USD'],t=>t.pair);$('byDir').innerHTML=grp(['Buy','Sell'],t=>t.dir);
-  $('none').classList.toggle('hide',n>0);
-  $('tb').innerHTML=list.map((t,i)=>({t,i})).reverse().map(({t,i})=>{const p=profit(t);
-    return `<tr><td>${i+1}</td><td>${t.date}</td><td>${timeStr(t)}</td><td><b>${t.pair}</b></td><td><span class="tag ${t.dir==='Buy'?'buy':'sell'}">${t.dir.toUpperCase()}</span></td><td>${t.tp}</td><td>${t.sl}</td><td>${t.res==='TP'?'TP hit':'SL hit'}</td><td class="${cls(p)}"><b>${money(p,1)}</b></td><td>${t.img?`<img class="thumb" src="${t.img}" onclick="view('${t.id}')" alt="Chart">`:'–'}</td><td><button class="btn ghost sm" onclick="view('${t.id}')">View</button> <button class="btn ghost sm" onclick="edit('${t.id}')">Edit</button> <button class="btn ghost sm" onclick="del('${t.id}')">Delete</button></td></tr>`}).join('');
-}
-function chart(p){
-  const W=800,H=220,L=50,R=10,T=10,B=22,mn=Math.min(...p),mx=Math.max(...p),pad=(mx-mn||1)*.15,lo=mn-pad,hi=mx+pad;
-  const x=i=>L+(p.length>1?i/(p.length-1):0)*(W-L-R),y=v=>T+(1-(v-lo)/(hi-lo))*(H-T-B);
-  if(p.length<2){$('eq').innerHTML='<div class="empty">Your equity curve will appear after your first trade.</div>';return}
-  const d=p.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)).join(' ');
-  let g='';for(let k=0;k<=3;k++){const v=lo+(hi-lo)*k/3;g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-6}" y="${y(v)+3}" text-anchor="end">${Math.round(v).toLocaleString()}</text>`}
-  $('eq').innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Equity curve">${g}<path d="${d} L${x(p.length-1)} ${H-B} L${x(0)} ${H-B}Z" fill="var(--wood)" opacity=".12"/><path d="${d}" fill="none" stroke="var(--wood)" stroke-width="2.2" stroke-linejoin="round"/><circle cx="${x(p.length-1)}" cy="${y(p[p.length-1])}" r="4" fill="var(--ink)"/><text x="${L}" y="${H-6}">Start</text><text x="${W-R}" y="${H-6}" text-anchor="end">Trade ${p.length-1}</text></svg>`;
+ const all=sorted(),list=all.filter(t=>t.status==='Closed');
+ const st=S.start||0;
+ let bal=st,w=0,l=0,gw=0,gl=0,best=0,worst=0;
+
+ list.forEach(t=>{
+  const p=profit(t);bal+=p;
+  if(p>0){w++;gw+=p;best=Math.max(best,p)}
+  else{l++;gl+=Math.abs(p);worst=Math.min(worst,p)}
+ });
+
+ const net=bal-st,n=list.length,wr=n?w/n*100:0;
+ const running=all.filter(t=>t.status==='In Position').length;
+
+ $('kBal').textContent=money(bal);
+ $('kStart').textContent=money(st);
+ $('kNet').textContent=money(net,true);
+ $('kNet').className='big '+cls(net);
+ $('kRet').textContent=(st?(net/st*100).toFixed(2):'0.00')+'% return';
+ $('kWR').textContent=wr.toFixed(1)+'%';
+ $('kWL').textContent=w+' W · '+l+' L';
+ $('kTot').textContent=all.length;
+ $('kClosed').textContent=n+' Closed · '+running+' Running';
+
+ const remain=S.goal==null?null:S.goal-net;
+ const achieved=S.goal>0?Math.max(0,Math.min(100,net/S.goal*100)):0;
+ $('goalRemain').textContent=remain==null?'—':remain<=0?'Goal achieved':money(remain);
+ $('goalRemain').className='big '+(remain!=null&&remain<=0?'pos':'');
+ $('goalCaption').textContent=remain==null?'Set your target goal in Settings.':remain<=0?'You have reached your target goal.':'Remaining amount to reach your target.';
+ $('goalTotal').textContent=S.goal==null?'—':money(S.goal);
+ $('goalProfit').textContent=money(net,true);
+ $('goalBar').style.width=achieved+'%';
+ $('goalPct').textContent=achieved.toFixed(1)+'% achieved';
+
+ donut('winDonut',wr);
+ $('winPct').textContent=wr.toFixed(0)+'%';
+ $('winLegend').innerHTML=`<div><i class="dot"></i><b>${w}</b> Wins</div><div><i class="dot alt"></i><b>${l}</b> Losses</div><div>Total: <b>${n}</b></div>`;
+
+ const buys=list.filter(t=>t.dir==='Buy').length,sells=n-buys,bp=n?buys/n*100:0;
+ donut('dirDonut',bp);$('dirPct').textContent=bp.toFixed(0)+'%';
+ $('dirLegend').innerHTML=`<div><i class="dot"></i><b>${buys}</b> Buy</div><div><i class="dot alt"></i><b>${sells}</b> Sell</div><div>Total: <b>${n}</b></div>`;
+
+ $('pairAnalytics').innerHTML=['XAU/USD','BTC/USD'].map(pair=>{
+  const a=list.filter(t=>t.pair===pair),p=a.reduce((s,t)=>s+profit(t),0);
+  const wins=a.filter(t=>profit(t)>0).length,rate=a.length?wins/a.length*100:0;
+  return`<div class="metric"><span>${pair}</span><b>${a.length} trades</b></div>
+  <div class="metric"><span>Win rate</span><b>${rate.toFixed(0)}%</b></div>
+  <div class="metric"><span>Net P/L</span><b class="${cls(p)}">${money(p,true)}</b></div>
+  <div style="height:1px;background:var(--line);margin:12px 0"></div>`;
+ }).join('');
+
+ const pf=gl?(gw/gl).toFixed(2):(gw?'∞':'0.00');
+ const more=[
+  ['Avg Win',w?money(gw/w):'$0.00'],['Avg Loss',l?money(-gl/l):'$0.00'],
+  ['Profit Factor',pf],['Max Drawdown',money(-maxDrawdown(list,st))],
+  ['Best Trade',money(best,true)],['Worst Trade',money(worst)],
+  ['Avg R:R',(w&&l)?((gw/w)/(gl/l)).toFixed(2):'–'],
+  ['Expectancy',n?money(net/n,true):'$0.00']
+ ];
+ $('kMore').innerHTML=more.map(m=>`<div class="card"><div class="lbl">${m[0]}</div><div class="big" style="font-size:24px">${m[1]}</div></div>`).join('');
+
+ $('none').classList.toggle('hide',all.length>0);
+
+ $('tb').innerHTML=all.map((t,i)=>({t,i})).reverse().map(({t,i})=>{
+  const p=profit(t),isRunning=t.status==='In Position';
+  const count=t.imgs?.length||0;
+  return`<tr>
+   <td>${i+1}</td><td>${t.date}</td><td>${timeStr(t)}</td>
+   <td><b>${esc(t.pair)}</b></td>
+   <td><span class="tag ${t.dir==='Buy'?'buy':'sell'}">${t.dir.toUpperCase()}</span></td>
+   <td><span class="tag ${isRunning?'running':'closed'}">${t.status}</span></td>
+   <td>${money(Math.abs(t.tp))}</td><td>${money(-Math.abs(t.sl))}</td>
+   <td>${isRunning?'—':t.exitType==='TP'?'TP hit':'SL hit'}</td>
+   <td>${Number(t.orderSize).toLocaleString()}</td>
+   <td class="${isRunning?'':cls(p)}"><b>${isRunning?'Running':money(p,true)}</b></td>
+   <td>${count?`<img class="thumb" src="${t.imgs[0]}" onclick="view('${t.id}')">${count>1?` +${count-1}`:''}`:'–'}</td>
+   <td><button class="btn ghost sm" onclick="view('${t.id}')">View</button>
+   <button class="btn ghost sm" onclick="edit('${t.id}')">Edit</button>
+   <button class="btn ghost sm" onclick="del('${t.id}')">Delete</button></td>
+  </tr>`;
+ }).join('');
 }
 
-$('addBtn').onclick=()=>{if(S.start===null){$('dSet').showModal();return}
-  editId=null;imgData=null;$('f').reset();$('prev').classList.add('hide');$('fTitle').textContent='New Trade';
-  $('date').value=new Date().toISOString().slice(0,10);$('dForm').showModal()};
+function maxDrawdown(list,start){
+ let b=start,peak=start,dd=0;
+ list.forEach(t=>{b+=profit(t);peak=Math.max(peak,b);dd=Math.max(dd,peak-b)});
+ return dd;
+}
+
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
+ $('dash').classList.toggle('hide',b.dataset.tab!=='dash');
+ $('trades').classList.toggle('hide',b.dataset.tab!=='trades');
+});
+
+function nowDate(){
+ const d=new Date();
+ $('date').value=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+}
+
+function resetImages(){
+ imgData=[];existingImages=[];$('img').value='';
+ $('pasteStatus').textContent='';renderPreviews();
+}
+
+$('addBtn').onclick=()=>{
+ if(S.start===null){$('dSet').showModal();return}
+ editId=null;$('f').reset();resetImages();
+ $('status').value='In Position';
+ $('fTitle').textContent='New Trade';nowDate();$('dForm').showModal();
+};
 $('fCancel').onclick=()=>$('dForm').close();
-$('img').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
-  r.onload=()=>{const im=new Image();im.onload=()=>{const m=1000,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');
-    c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-    imgData=c.toDataURL('image/jpeg',.72);$('prev').src=imgData;$('prev').classList.remove('hide')};im.src=r.result};r.readAsDataURL(f)};
-$('f').onsubmit=async e=>{e.preventDefault();
-  const old=editId?S.trades.find(t=>t.id===editId):null;
-  const t={id:editId||crypto.randomUUID(),date:$('date').value,hh:$('hh').value,mm:$('mm').value,ap:$('ap').value,pair:$('pair').value,dir:$('dir').value,tp:$('tp').value,sl:$('sl').value,res:$('res').value,amt:Math.abs(+$('amt').value),note:$('note').value.trim()};
-  try{let p=old&&old.path;if(imgData)p=await upImg(t.id,imgData);
-    const {error}=await sb.from('trades').upsert(toRow(t,p));if(error)throw error;
-    await refresh();$('dForm').close()}catch(x){alert('Save failed: '+x.message)}};
-window.edit=id=>{const t=S.trades.find(x=>x.id===id);editId=id;imgData=null;
-  ['date','hh','mm','ap','pair','dir','tp','sl','res','amt','note'].forEach(k=>$(k).value=t[k]);
-  $('prev').src=t.img||'';$('prev').classList.toggle('hide',!t.img);$('fTitle').textContent='Edit Trade';$('dForm').showModal()};
-window.del=async id=>{if(!confirm('Delete this trade?'))return;const t=S.trades.find(x=>x.id===id);
-  try{const {error}=await sb.from('trades').delete().eq('id',id);if(error)throw error;
-    if(t.path)await sb.storage.from('screenshots').remove([t.path]);await refresh()}catch(x){alert('Delete failed: '+x.message)}};
-window.view=id=>{const t=S.trades.find(x=>x.id===id),p=profit(t),no=sorted().findIndex(x=>x.id===id)+1;
-  $('vBody').innerHTML=`<div class="lbl">Trade #${no} · ${t.date} · ${timeStr(t)}</div><h2 style="margin-top:4px">${t.pair} <span class="tag ${t.dir==='Buy'?'buy':'sell'}">${t.dir.toUpperCase()}</span></h2>
-  <div class="grid g4" style="grid-template-columns:repeat(3,1fr)"><div><div class="lbl">TP</div><b>${t.tp}</b></div><div><div class="lbl">SL</div><b>${t.sl}</b></div><div><div class="lbl">Profit</div><b class="${cls(p)}">${money(p,1)}</b></div></div>
-  ${t.img?`<img class="prev" style="max-height:none;width:100%" src="${t.img}" alt="Analysis">`:''}
-  <h2 style="margin-top:16px;font-size:18px">Review</h2><p style="white-space:pre-wrap;margin:0">${esc(t.note)||'<span style="color:var(--mute)">No review written.</span>'}</p>
-  <div class="bar"><button class="btn ghost" onclick="dView.close()">Close</button></div>`;$('dView').showModal()};
 
-$('setBtn').onclick=()=>{$('sb').value=S.start??'';$('dSet').showModal()};
-$('sbSave').onclick=async()=>{const v=parseFloat($('sb').value);if(isNaN(v)||v<0){alert('Enter a valid starting balance.');return}
-  const {error}=await sb.from('settings').upsert({user_id:uid,start_balance:v});if(error){alert(error.message);return}S.start=v;render();$('dSet').close()};
-$('exp').onclick=()=>{const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(S));a.download='forex-journal-backup.json';a.click()};
+function setScreenshot(file){
+ return new Promise(resolve=>{
+  if(!file||!file.type.startsWith('image/'))return resolve(false);
+  const r=new FileReader();
+  r.onload=()=>{
+   const im=new Image();
+   im.onload=()=>{
+    const scale=Math.min(1,1400/Math.max(im.width,im.height));
+    const c=document.createElement('canvas');
+    c.width=Math.max(1,Math.round(im.width*scale));
+    c.height=Math.max(1,Math.round(im.height*scale));
+    c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+    imgData.push(c.toDataURL('image/jpeg',.78));
+    renderPreviews();
+    $('pasteStatus').textContent=(imgData.length+existingImages.length)+' screenshot(s) ready.';
+    resolve(true);
+   };
+   im.onerror=()=>resolve(false);
+   im.src=r.result;
+  };
+  r.onerror=()=>resolve(false);
+  r.readAsDataURL(file);
+ });
+}
+
+async function addFiles(files){
+ for(const f of Array.from(files||[]).filter(x=>x.type.startsWith('image/')))await setScreenshot(f);
+}
+
+function renderPreviews(){
+ const html=[];
+ existingImages.forEach((url,i)=>html.push(`<div class="preview-item"><img src="${url}"><small>Saved screenshot ${i+1}</small></div>`));
+ imgData.forEach((url,i)=>html.push(`<div class="preview-item"><img src="${url}"><button type="button" data-remove="${i}">×</button><small>New screenshot ${i+1}</small></div>`));
+ $('previewGallery').innerHTML=html.join('');
+}
+
+$('previewGallery').onclick=e=>{
+ const b=e.target.closest('[data-remove]');
+ if(!b)return;
+ imgData.splice(+b.dataset.remove,1);renderPreviews();
+ $('pasteStatus').textContent=(imgData.length+existingImages.length)+' screenshot(s) selected.';
+};
+
+$('img').onchange=async e=>{await addFiles(e.target.files);e.target.value=''};
+
+const pasteBox=$('pasteBox');
+pasteBox.onclick=()=>pasteBox.focus();
+
+function handlePaste(e){
+ if(!$('dForm').open)return;
+ const files=Array.from(e.clipboardData?.items||[])
+  .filter(x=>x.type.startsWith('image/')).map(x=>x.getAsFile()).filter(Boolean);
+ if(files.length){e.preventDefault();addFiles(files)}
+}
+pasteBox.addEventListener('paste',handlePaste);
+document.addEventListener('paste',handlePaste);
+
+['dragenter','dragover'].forEach(ev=>pasteBox.addEventListener(ev,e=>{
+ e.preventDefault();pasteBox.classList.add('dragover');
+}));
+['dragleave','drop'].forEach(ev=>pasteBox.addEventListener(ev,e=>{
+ e.preventDefault();pasteBox.classList.remove('dragover');
+}));
+pasteBox.addEventListener('drop',e=>addFiles(e.dataTransfer.files));
+
+$('f').onsubmit=async e=>{
+ e.preventDefault();
+ const old=editId?S.trades.find(t=>t.id===editId):null;
+ const stamp=old?{hh:old.hh,mm:old.mm,ap:old.ap}:(()=>{
+  const d=new Date();return{hh:String(d.getHours()%12||12),mm:String(d.getMinutes()),ap:d.getHours()>=12?'PM':'AM'};
+ })();
+
+ const t={
+  id:editId||crypto.randomUUID(),date:$('date').value,
+  hh:stamp.hh,mm:stamp.mm,ap:stamp.ap,
+  pair:$('pair').value,dir:$('dir').value,
+  status:$('status').value,exitType:$('exitType').value,
+  tp:Math.abs(+$('tp').value),sl:Math.abs(+$('sl').value),
+  orderSize:Math.abs(+$('orderSize').value),note:$('note').value.trim()
+ };
+
+ if(t.exitType==='TP'&&t.tp<=0){alert('Enter TP profit greater than 0.');return}
+ if(t.exitType==='SL'&&t.sl<=0){alert('Enter SL loss greater than 0.');return}
+
+ try{
+  $('saveTrade').disabled=true;$('saveTrade').textContent='Saving...';
+  const paths=old?getPaths(old).slice():[];
+
+  for(const img of imgData){
+   paths.push(await upImg(t.id,img,paths.length));
+  }
+
+  const{error}=await sb.from('trades').upsert({...toRow(t,paths),user_id:uid});
+  if(error)throw error;
+
+  await refresh();$('dForm').close();resetImages();
+ }catch(x){alert('Save failed: '+x.message)}
+ finally{$('saveTrade').disabled=false;$('saveTrade').textContent='Save Trade'}
+};
+
+window.edit=id=>{
+ const t=S.trades.find(x=>x.id===id);if(!t)return;
+ editId=id;imgData=[];existingImages=t.imgs||[];
+ ['date','pair','dir'].forEach(k=>$(k).value=t[k]);
+ $('status').value=t.status||'Closed';
+ $('exitType').value=t.exitType;
+ $('tp').value=Math.abs(t.tp);$('sl').value=Math.abs(t.sl);
+ $('orderSize').value=t.orderSize;$('note').value=t.note;
+ $('img').value='';renderPreviews();
+ $('pasteStatus').textContent=existingImages.length?existingImages.length+' saved screenshot(s). You can add more.':'Add screenshots if needed.';
+ $('fTitle').textContent='Edit Trade';$('dForm').showModal();
+};
+
+window.del=async id=>{
+ if(!confirm('Delete this trade?'))return;
+ const t=S.trades.find(x=>x.id===id);
+ try{
+  const{error}=await sb.from('trades').delete().eq('id',id);
+  if(error)throw error;
+  const paths=getPaths(t);
+  if(paths.length)await sb.storage.from('screenshots').remove(paths);
+  await refresh();
+ }catch(x){alert('Delete failed: '+x.message)}
+};
+
+window.view=id=>{
+ const t=S.trades.find(x=>x.id===id);if(!t)return;
+ const p=profit(t),running=t.status==='In Position';
+ const no=sorted().findIndex(x=>x.id===id)+1;
+ const imgs=t.imgs||[];
+
+ $('vBody').innerHTML=`
+ <div class="lbl">Trade #${no} · ${t.date} · ${timeStr(t)}</div>
+ <h2 style="margin-top:4px">${esc(t.pair)} <span class="tag ${t.dir==='Buy'?'buy':'sell'}">${t.dir.toUpperCase()}</span></h2>
+ <div class="metric"><span>Status</span><b><span class="tag ${running?'running':'closed'}">${t.status}</span></b></div>
+ <div class="grid g2">
+  <div><div class="lbl">TP</div><b>${money(Math.abs(t.tp))}</b></div>
+  <div><div class="lbl">SL</div><b>${money(-Math.abs(t.sl))}</b></div>
+  <div><div class="lbl">Exit Type</div><b>${running?'Not closed':t.exitType==='TP'?'TP Hit':'SL Hit'}</b></div>
+  <div><div class="lbl">Order Size</div><b>${t.orderSize}</b></div>
+ </div>
+ <div style="margin-top:12px"><div class="lbl">Actual P/L</div><div class="big ${running?'':cls(p)}">${running?'Running':money(p,true)}</div></div>
+ ${imgs.length?`<h2 style="margin-top:18px">Analysis Screenshots (${imgs.length})</h2>
+ <div class="view-gallery">${imgs.map((u,i)=>`<div><div class="hint">Screenshot ${i+1} of ${imgs.length}</div><img src="${u}"></div>`).join('')}</div>`:'<p class="hint">No screenshots.</p>'}
+ <h2 style="margin-top:16px">Review</h2>
+ <p style="white-space:pre-wrap">${esc(t.note)||'No review written.'}</p>
+ <div class="bar"><button class="btn ghost" onclick="dView.close()">Close</button></div>`;
+ $('dView').showModal();
+};
+
+/* SETTINGS */
+$('setBtn').onclick=()=>{
+ $('sb').value=S.start??'';$('tg').value=S.goal??'';$('dSet').showModal();
+};
+$('setClose').onclick=()=>$('dSet').close();
+$('sbSave').onclick=async()=>{
+ const v=parseFloat($('sb').value),g=$('tg').value.trim()===''?null:parseFloat($('tg').value);
+ if(!Number.isFinite(v)||v<0){alert('Enter valid starting balance.');return}
+ if(g!==null&&(!Number.isFinite(g)||g<=0)){alert('Target Goal must be greater than 0 or blank.');return}
+ const{error}=await sb.from('settings').upsert({user_id:uid,start_balance:v,target_goal:g});
+ if(error){alert(error.message);return}
+ S.start=v;S.goal=g;render();$('dSet').close();
+};
+
+/* BACKUP */
+$('exp').onclick=()=>{
+ const a=document.createElement('a');
+ a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(S));
+ a.download='forex-journal-backup.json';a.click();
+};
 $('impB').onclick=()=>$('imp').click();
-$('imp').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{
-  const d=JSON.parse(r.result);if(!Array.isArray(d.trades))throw new Error('invalid file');
-  for(const t of d.trades){const id=crypto.randomUUID();let p=null;if(t.img&&t.img.startsWith('data:'))p=await upImg(id,t.img);
-    const {error}=await sb.from('trades').insert(toRow({...t,id},p));if(error)throw error}
-  if(S.start===null&&d.start!=null)await sb.from('settings').upsert({user_id:uid,start_balance:d.start});
-  await refresh();$('dSet').close()}catch(x){alert('Import failed: '+x.message)}};r.readAsText(f)};
+$('imp').onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();
+ r.onload=async()=>{
+  try{
+   const d=JSON.parse(r.result);
+   if(!Array.isArray(d.trades))throw new Error('Invalid backup file');
+   for(const t of d.trades){
+    const id=crypto.randomUUID(),paths=[];
+    const images=Array.isArray(t.imgs)?t.imgs:(t.img?[t.img]:[]);
+    for(const image of images){
+     if(typeof image==='string'&&image.startsWith('data:'))paths.push(await upImg(id,image,paths.length));
+    }
+    const item={...t,id,status:t.status||'Closed',exitType:t.exitType||'TP',orderSize:Number(t.orderSize||0)};
+    const{error}=await sb.from('trades').insert({...toRow(item,paths),user_id:uid});
+    if(error)throw error;
+   }
+   if(d.start!=null){
+    const{error}=await sb.from('settings').upsert({user_id:uid,start_balance:d.start,target_goal:d.goal??null});
+    if(error)throw error;
+   }
+   await refresh();$('dSet').close();
+  }catch(x){alert('Import failed: '+x.message)}
+ };
+ r.readAsText(f);e.target.value='';
+};
 
-async function begin(sess){uid=sess.user.id;try{await refresh()}catch(x){alert('Load failed: '+x.message)}if(S.start===null)$('dSet').showModal()}
-async function init(){const c=cfg();if(!c.url||!c.key){$('dCfg').showModal();return}
-  sb=supabase.createClient(c.url,c.key);sb.auth.onAuthStateChange(ev=>{if(ev==='PASSWORD_RECOVERY'){$('dAuth').close();$('dNew').showModal()}});const {data}=await sb.auth.getSession();
-  if(data.session)begin(data.session);else $('dAuth').showModal()}
-async function auth(up){const email=$('aEm').value.trim(),password=$('aPw').value;
-  const {data,error}=up?await sb.auth.signUp({email,password}):await sb.auth.signInWithPassword({email,password});
-  if(error){$('aMsg').textContent=error.message;return}
-  if(data.session){$('dAuth').close();begin(data.session)}else $('aMsg').textContent='Check your email to confirm your account, then sign in.'}
-$('aFg').onclick=async e=>{e.preventDefault();const email=$('aEm').value.trim();if(!email){$('aMsg').textContent='Enter your email above first.';return}
-  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
-  $('aMsg').textContent=error?error.message:'Reset link sent. Check your email and open the link.'};
-$('nSave').onclick=async()=>{const password=$('nPw').value;if(password.length<6){alert('Minimum 6 characters.');return}
-  const {error}=await sb.auth.updateUser({password});if(error){alert(error.message);return}$('dNew').close();alert('Password updated.')};
-$('aIn').onclick=()=>auth(false);$('aUp').onclick=()=>auth(true);
-$('cSave').onclick=()=>{try{localStorage.setItem('sbUrl',$('cUrl').value.trim());localStorage.setItem('sbKey',$('cKey').value.trim())}catch(e){}$('dCfg').close();init()};
-$('outBtn').onclick=async()=>{if(sb)await sb.auth.signOut();S={start:null,trades:[]};render();$('dAuth').showModal()};
-['dAuth','dCfg'].forEach(i=>$(i).addEventListener('cancel',e=>e.preventDefault()));
-render();init();
+/* AUTH */
+async function begin(sess){
+ uid=sess.user.id;
+ try{await refresh()}catch(x){alert('Load failed: '+x.message)}
+ if(S.start===null)$('dSet').showModal();
+}
+async function init(){
+ const c=cfg();
+ if(!c.url||!c.key){$('dCfg').showModal();return}
+ sb=supabase.createClient(c.url,c.key);
+ sb.auth.onAuthStateChange(ev=>{
+  if(ev==='PASSWORD_RECOVERY'){$('dAuth').close();$('dNew').showModal()}
+ });
+ const{data,error}=await sb.auth.getSession();
+ if(error){alert(error.message);return}
+ if(data.session)begin(data.session);else $('dAuth').showModal();
+}
+async function auth(up){
+ const email=$('aEm').value.trim(),password=$('aPw').value;
+ const{data,error}=up?await sb.auth.signUp({email,password}):await sb.auth.signInWithPassword({email,password});
+ if(error){$('aMsg').textContent=error.message;return}
+ if(data.session){$('dAuth').close();begin(data.session)}
+ else $('aMsg').textContent='Check your email to confirm your account, then sign in.';
+}
+$('aFg').onclick=async e=>{
+ e.preventDefault();const email=$('aEm').value.trim();
+ if(!email){$('aMsg').textContent='Enter your email first.';return}
+ const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+ $('aMsg').textContent=error?error.message:'Reset link sent. Check your email.';
+};
+$('nSave').onclick=async()=>{
+ const password=$('nPw').value;
+ if(password.length<6){alert('Minimum 6 characters.');return}
+ const{error}=await sb.auth.updateUser({password});
+ if(error){alert(error.message);return}
+ $('dNew').close();alert('Password updated.');
+};
+$('aIn').onclick=()=>auth(false);
+$('aUp').onclick=()=>auth(true);
+$('cSave').onclick=()=>{
+ const url=$('cUrl').value.trim(),key=$('cKey').value.trim();
+ if(!url||!key){alert('Enter both Supabase details.');return}
+ localStorage.setItem('sbUrl',url);localStorage.setItem('sbKey',key);
+ $('dCfg').close();init();
+};
+$('outBtn').onclick=async()=>{
+ if(sb)await sb.auth.signOut();
+ S={start:null,goal:null,trades:[]};render();$('dAuth').showModal();
+};
+['dAuth','dCfg'].forEach(id=>$(id).addEventListener('cancel',e=>e.preventDefault()));
+
+render();
+init();
 </script>
 </body>
 </html>
